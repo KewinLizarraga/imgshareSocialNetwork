@@ -3,6 +3,6 @@ const router = Router()
 
 const { HomeController } = require('../controllers')
 
-router.get('/home', HomeController.home)
+router.get('/', HomeController.home)
 
 module.exports = router
