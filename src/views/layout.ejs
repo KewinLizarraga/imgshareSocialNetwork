@@ -1,11 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <%- body %> 
-</body>
+  <%- include('partials/head') %>
+  <body>
+    <nav class="navbar">
+      <div class="container">
+        <a href="/home" class="navbar-brand">
+          <img src="/public/image/imgshare-logo.png" alt="logo_imgshare" />
+        </a>
+      </div>
+    </nav>
+
+    <div class="container p-4">
+      <div class="row">
+        <div class="col-md-8">
+          <%- body %>
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+    </div>
+    <%- include('partials/script') %>
+  </body>
 </html>
