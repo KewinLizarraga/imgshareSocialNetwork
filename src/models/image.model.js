@@ -1,6 +1,4 @@
-app.use((req, res) => {
-  res.status(500).send('Error interno del servidor')
-})const { Schema, model } = require('mongoose')
+const { Schema, model } = require('mongoose')
 
 const ImageSchema = new Schema(
   {
