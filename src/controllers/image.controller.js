@@ -1,25 +1,44 @@
-const { Image } = require('../models')
+const moment = require('moment')
+const md5 = require('md5')
+const { Image, Comment } = require('../models')
 
 module.exports = {
-  main: (req, res) => {
-    res.send('Llamando a la imagen')
+  main: async (req, res) => {
+    const image = await Image.findById(req.params.image_id)
+    const comments = await Comment.find({ image: image._id }).sort({ createdAt: -1 })
+    const dateNow = new Date()
+    res.render('image', {
+      image,
+      comments,
+      dateNow,
+      moment
+    })
   },
   create: async (req, res) => {
     try {
-      const data = {
-        tittle: req.body.tittle,
-        description: req.body.description,
-        filename: req.file.filename,
-        urlImage: req.file.path.split('src')[1]
-      }
-      const image = await Image.create(data)
-      // res.send('imagen enviada...')
+      const image = new Image(req.body)
+      image.filename = req.file.filename
+      image.urlImage = req.file.path.split('src')[1]
+      await image.save()
       res.redirect(`/images/${image._id}`)
     } catch (error) {
       res.status(500).json({ error: req.fileValidationError })
     }
   },
   like: (req, res) => {},
-  comment: (req, res) => {},
+  comment: async (req, res) => {
+    const image = await Image.findById(req.params.image_id)
+    try {
+      if (image) {
+        const comment = new Comment(req.body)
+        comment.gravatar = md5(comment.email)
+        comment.image = image._id
+        await comment.save()
+        res.redirect(`/images/${image._id}`)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  },
   remove: (req, res) => {}
 }
