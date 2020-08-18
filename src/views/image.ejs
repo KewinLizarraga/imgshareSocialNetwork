@@ -1,0 +1,73 @@
+<div class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h3 class="card-title text-white"><%= image.title %></h3>
+    <button class="btn btn-danger" id="btn-delete" data-id="<%= image._id %>">
+      <i class="far fa-trash-alt"></i> Delete
+    </button>
+  </div>
+  <div class="card-body">
+    <p><%= image.description %></p>
+    <img src="<%= image.urlImage %>" alt="<%= image.title %>" class="w-100 h-100 img-thumbnail" />
+  </div>
+  <div class="card-footer d-flex justify-content-between align-items-center">
+    <button class="btn btn-success" id="btn-like" data-id="<%= image._id %>">
+      <i class="fas fa-thumbs-up"></i> Like
+    </button>
+    <p><i class="fas fa-heart"></i> <span><%= image.likes %></span></p>
+    <p><i class="fas fa-eye"></i> <span><%= image.views %></span></p>
+    <p>
+      <i class="far fa-clock"></i>
+      <span><%= moment(image.createdAt).startOf(dateNow).fromNow(); %></span>
+    </p>
+  </div>
+</div>
+
+<div class="card mt-2">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h3 class="card-title text-white">Comments</h3>
+    <button class="btn btn-info" id="btn-toggle-comment">
+      <i class="far fa-comment-alt"></i> Post a Comment
+    </button>
+  </div>
+  <div class="card-body">
+    <blockquote>
+      <form action="/images/<%= image._id %>/comment" method="POST">
+        <div class="form-group">
+          <input type="text" name="name" class="form-control" placeholder="Name" />
+        </div>
+        <div class="form-group">
+          <input type="text" name="email" class="form-control" placeholder="Email" />
+        </div>
+        <div class="form-group">
+          <textarea
+            name="comment"
+            class="form-control"
+            rows="2"
+            placeholder="Your comment"
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-success" id="btn-comment">
+            <i class="fas fa-comment-alt"></i> Post
+          </button>
+        </div>
+      </form>
+    </blockquote>
+    <!-- Comments -->
+    <ul class="list-group p-4">
+      <% comments.forEach(comment => { %>
+        <li class="list-group-item">
+          <div class="row">
+            <a href="#" class="col-md-3 text-center">
+              <img src="http://gravatar.com/avatar/<%= comment.gravatar %>?d=monsterid&s=45" alt="imgProfile">
+            </a>
+            <blockquote class="col-md-9">
+              <p class="lead"><%= comment.comment %></p>
+              <footer class="blockquote-footer"><%= comment.name %> - <%= moment(comment.createdAt).startOf(dateNow).fromNow(); %></footer>
+            </blockquote>
+          </div>
+        </li>
+      <% }); %>
+    </ul>
+  </div>
+</div>
