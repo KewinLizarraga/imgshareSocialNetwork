@@ -1,7 +1,11 @@
+const { Image } = require('../models')
+
 module.exports = {
-    home: (req, res) => {
-        res.render('home', {
-            pageName: 'Pagina principal'
-        })
-    }
+  home: async (req, res) => {
+    const images = await Image.find().sort({ createdAt: -1 })
+    res.render('home', {
+      pageName: 'Pagina principal',
+      images
+    })
+  }
 }
