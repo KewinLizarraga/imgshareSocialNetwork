@@ -15,7 +15,7 @@
       <div class="form-group">
         <input
           type="text"
-          name="tittle"
+          name="title"
           class="form-control"
           placeholder="Title for the image"
           required
@@ -46,7 +46,7 @@
     <div class="row">
       <% images.forEach(image => { %>
         <div class="col-md-4">
-            <a href="<%= image.urlImage %>">
+            <a href="/images/<%= image._id %>">
               <img src="<%= image.urlImage %>" alt="image" class="w-100 h-100 img-thumbnail" >
             </a>
         </div>
