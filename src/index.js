@@ -11,17 +11,16 @@ const router = require('./routes')
 
 const app = express()
 
-app.use(express.urlencoded({ extended: false }))
-app.use(express.json())
-
 app.set('views', path.join(__dirname, 'views'))
 
 app.set('view engine', 'ejs')
 app.use(expressEjsLayouts)
 
-app.use('/public', express.static(path.join(__dirname, 'public')))
-
 app.use(morgan('dev'))
+app.use(express.urlencoded({ extended: false }))
+app.use(express.json())
+
+app.use('/public', express.static(path.join(__dirname, 'public')))
 
 if (NODE_ENV === 'development') {
   app.use(errorhandler())
