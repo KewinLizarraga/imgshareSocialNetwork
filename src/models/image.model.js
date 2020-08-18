@@ -14,4 +14,4 @@ const ImageSchema = new Schema(
   }
 )
 
-module.exports = model('image', ImageSchema)
+module.exports = model('Image', ImageSchema)
