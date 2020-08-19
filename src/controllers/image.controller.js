@@ -5,14 +5,22 @@ const { Image, Comment } = require('../models')
 module.exports = {
   main: async (req, res) => {
     const image = await Image.findById(req.params.image_id)
-    const comments = await Comment.find({ image: image._id }).sort({ createdAt: -1 })
-    const dateNow = new Date()
-    res.render('image', {
-      image,
-      comments,
-      dateNow,
-      moment
-    })
+    try {
+      if (image) {
+        image.views += 1
+        await image.save()
+        const comments = await Comment.find({ image: image._id }).sort({ createdAt: -1 })
+        const dateNow = new Date()
+        res.render('image', {
+          image,
+          comments,
+          dateNow,
+          moment
+        })
+      }
+    } catch (error) {
+      res.redirect('/home')
+    }
   },
   create: async (req, res) => {
     try {
@@ -25,7 +33,18 @@ module.exports = {
       res.status(500).json({ error: req.fileValidationError })
     }
   },
-  like: (req, res) => {},
+  like: async (req, res) => {
+    const image = await Image.findById(req.params.image_id)
+    try {
+      if (image) {
+        image.likes += 1
+        await image.save()
+        res.status(200).json({ likes: image.likes })
+      }
+    } catch (error) {
+      res.status(500).json({ error: 'Internal Error Server' })
+    }
+  },
   comment: async (req, res) => {
     const image = await Image.findById(req.params.image_id)
     try {
