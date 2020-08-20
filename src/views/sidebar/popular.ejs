@@ -1,0 +1,16 @@
+<div class="card mb-2">
+  <div class="card-header">
+    <h3 class="card-title text-white"><i class="fas fa-fire"></i> Most Popular</h3>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <% viewModel.sidebar.popular.forEach(image => { %>
+        <div class="col-md-4">
+          <a href="/images/<%= image._id %>">
+            <img src="<%= image.urlImage %> " alt="image" class="w-100 img-thumbnail" />
+          </a>
+        </div>
+      <% }); %>
+    </div>
+  </div>
+</div>

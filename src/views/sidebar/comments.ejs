@@ -1,0 +1,31 @@
+<div class="card mb-2">
+  <div class="card-header">
+    <h3 class="card-title text-white"><i class="fas fa-comment-alt"></i> Latest Comments</h3>
+  </div>
+  <div class="card-body">
+    <ul class="list-group p-4">
+      <% viewModel.sidebar.comments.forEach(comment => { %>
+        <li class="list-group">
+          <div class="row">
+            <div class="col-md-5">
+              <img src="<%= comment.image.urlImage %>" alt="image" class="w-100 img-thumbnail" />
+            </div>
+            <div class="col-md-6">
+              <blockquote>
+                <p><%= comment.comment %></p>
+                <footer class="blockquote-footer">
+                  <span>
+                    <%= comment.name %>,
+                  </span>
+                  <span>
+                    <%= moment(comment.createdAt).startOf(new Date()).fromNow();%>
+                  </span>
+                </footer>
+              </blockquote>
+            </div>
+          </div>
+        </li>
+      <% }); %>
+    </ul>
+  </div>
+</div>
