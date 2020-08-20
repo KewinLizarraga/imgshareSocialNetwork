@@ -1,23 +1,23 @@
 <div class="card">
   <div class="card-header d-flex justify-content-between align-items-center">
-    <h3 class="card-title text-white"><%= image.title %></h3>
-    <button class="btn btn-danger" id="btn-delete" data-id="<%= image._id %>">
+    <h3 class="card-title text-white"><%= viewModel.image.title %></h3>
+    <button class="btn btn-danger" id="btn-delete" data-id="<%= viewModel.image._id %>">
       <i class="far fa-trash-alt"></i> Delete
     </button>
   </div>
   <div class="card-body">
-    <p><%= image.description %></p>
-    <img src="<%= image.urlImage %>" alt="<%= image.title %>" class="w-100 h-100 img-thumbnail" />
+    <p><%= viewModel.image.description %></p>
+    <img src="<%= viewModel.image.urlImage %>" alt="<%= viewModel.image.title %>" class="w-100 img-thumbnail" />
   </div>
   <div class="card-footer d-flex justify-content-between align-items-center">
-    <button class="btn btn-success" id="btn-like" data-id="<%= image._id %>">
+    <button class="btn btn-success" id="btn-like" data-id="<%= viewModel.image._id %>">
       <i class="fas fa-thumbs-up"></i> Like
     </button>
-    <p><i class="fas fa-heart"></i> <span class="likes-count"><%= image.likes %></span></p>
-    <p><i class="fas fa-eye"></i> <span><%= image.views %></span></p>
+    <p><i class="fas fa-heart"></i> <span class="likes-count"><%= viewModel.image.likes %></span></p>
+    <p><i class="fas fa-eye"></i> <span><%= viewModel.image.views %></span></p>
     <p>
       <i class="far fa-clock"></i>
-      <span><%= moment(image.createdAt).startOf(dateNow).fromNow(); %></span>
+      <span><%= moment(viewModel.image.createdAt).startOf(new Date()).fromNow(); %></span>
     </p>
   </div>
 </div>
@@ -25,13 +25,13 @@
 <div class="card mt-2">
   <div class="card-header d-flex justify-content-between align-items-center">
     <h3 class="card-title text-white">Comments</h3>
-    <button class="btn btn-info" id="btn-toggle-comment">
+    <button class="btn btn-info" id="btn-comment">
       <i class="far fa-comment-alt"></i> Post a Comment
     </button>
   </div>
   <div class="card-body">
-    <blockquote>
-      <form action="/images/<%= image._id %>/comment" method="POST">
+    <blockquote id="post-comment">
+      <form action="/images/<%= viewModel.image._id %>/comment" method="POST">
         <div class="form-group">
           <input type="text" name="name" class="form-control" placeholder="Name" />
         </div>
@@ -55,7 +55,7 @@
     </blockquote>
     <!-- Comments -->
     <ul class="list-group p-4">
-      <% comments.forEach(comment => { %>
+      <% viewModel.comments.forEach(comment => { %>
         <li class="list-group-item">
           <div class="row">
             <a href="#" class="col-md-3 text-center">
@@ -63,7 +63,7 @@
             </a>
             <blockquote class="col-md-9">
               <p class="lead"><%= comment.comment %></p>
-              <footer class="blockquote-footer"><%= comment.name %> - <%= moment(comment.createdAt).startOf(dateNow).fromNow(); %></footer>
+              <footer class="blockquote-footer"><%= comment.name %> - <%= moment(comment.createdAt).startOf(new Date()).fromNow(); %></footer>
             </blockquote>
           </div>
         </li>

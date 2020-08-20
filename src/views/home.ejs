@@ -44,10 +44,10 @@
   </div>
   <div class="card-body">
     <div class="row">
-      <% images.forEach(image => { %>
+      <% viewModel.images.forEach(image => { %>
         <div class="col-md-4">
             <a href="/images/<%= image._id %>">
-              <img src="<%= image.urlImage %>" alt="image" class="w-100 h-100 img-thumbnail" >
+              <img src="<%= image.urlImage %>" alt="image" class="w-100 img-thumbnail" >
             </a>
         </div>
       <% }); %>
