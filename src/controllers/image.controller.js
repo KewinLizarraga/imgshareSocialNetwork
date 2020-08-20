@@ -1,20 +1,24 @@
 const moment = require('moment')
 const md5 = require('md5')
+const fs = require('fs')
+const path = require('path')
 const { Image, Comment } = require('../models')
+const { sidebar } = require('../helpers')
 
 module.exports = {
   main: async (req, res) => {
+    let viewModel = { image: {}, comments: {} }
     const image = await Image.findById(req.params.image_id)
     try {
       if (image) {
         image.views += 1
+        viewModel.image = image
         await image.save()
         const comments = await Comment.find({ image: image._id }).sort({ createdAt: -1 })
-        const dateNow = new Date()
+        viewModel.comments = comments
+        viewModel = await sidebar(viewModel)
         res.render('image', {
-          image,
-          comments,
-          dateNow,
+          viewModel,
           moment
         })
       }
@@ -59,5 +63,13 @@ module.exports = {
       console.log(error)
     }
   },
-  remove: (req, res) => {}
+  remove: async (req, res) => {
+    const image = await Image.findById(req.params.image_id)
+    if (image) {
+      fs.unlinkSync(path.resolve(`./src${image.urlImage}`))
+      await Comment.deleteMany({ image: image._id })
+      await image.remove()
+      res.json(true)
+    }
+  }
 }
